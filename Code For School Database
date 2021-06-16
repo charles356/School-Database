@@ -1,0 +1,433 @@
+CREATE TABLE students (
+id int PRIMARY KEY,
+name VARCHAR(255),
+surname VARCHAR(255),
+sex VARCHAR(255),
+email VARCHAR(255),
+enrollment_date DATE 
+);
+
+
+
+CREATE TABLE attendence (
+id int,
+attendence_id int PRIMARY KEY,
+attendence VARCHAR(255),
+FOREIGN KEY (id) REFERENCES students(id) ON DELETE CASCADE
+);
+
+
+
+CREATE TABLE classes (
+id int, 
+class_id int PRIMARY KEY,
+class_name VARCHAR(255),
+FOREIGN KEY (id) REFERENCES students(id) ON DELETE CASCADE,
+FOREIGN KEY (class_id) REFERENCES attendence(attendence_id) ON DELETE CASCADE
+);
+
+
+
+CREATE TABLE grade (
+id int,
+grade_id int PRIMARY KEY,
+grade int,
+FOREIGN KEY (id) REFERENCES students(id) ON DELETE CASCADE
+);
+
+
+
+CREATE TABLE subjects (
+id int,
+subject_id int PRIMARY KEY,
+subject VARCHAR(255),
+FOREIGN KEY (id) REFERENCES students(id) ON DELETE CASCADE,
+FOREIGN KEY (subject_id) REFERENCES grade(grade_id) ON DELETE CASCADE
+);
+
+
+
+CREATE TABLE tutor (
+id int,
+tutor_id int,
+tutor_name int,
+email VARCHAR(255),
+FOREIGN KEY (id) REFERENCES students(id) ON DELETE CASCADE
+);
+
+
+
+CREATE table school_company (
+id int,
+company VARCHAR(255),
+supply_type VARCHAR(255),
+FOREIGN KEY (id) REFERENCES tutor(tutor_id) ON DELETE SET NULL
+);
+
+
+CREATE TABLE tirgger_1 (
+message VARCHAR(255) 
+);
+
+CREATE TABLE tirgger_2 (
+message VARCHAR(255) 
+);
+
+
+
+INSERT INTO students
+VALUES(100, 'James', 'Mccannon', 'M', 'JM394@gmial.com' '2014-06-07');
+INSERT INTO students
+VALUES(101, 'Charles', 'Muiruri', 'M', 'JCM54@gmial.com' '2014-06-07');
+INSERT INTO students
+VALUES(102, 'Ben', 'Jenkins', 'M', 'BJM54@gmial.com' '2014-06-07');
+INSERT INTO students
+VALUES(103, 'Jess', 'Gega', 'F', 'JJ4@aol.com' '2014-06-07');
+INSERT INTO students
+VALUES(104, 'Garnt', 'Gigguk', 'M', 'GGM558@gmial.com' '2014-06-07');
+INSERT INTO students
+VALUES(105, 'Ally', 'Grey', 'F', 'AG@gmial.com' '2014-06-07');
+INSERT INTO students
+VALUES(106, 'Yaya', 'Keneya', 'F', 'YK77@aol.com' '2014-06-07');
+INSERT INTO students
+VALUES(107, 'Ryan', 'Lawlee', 'M', 'RL23@gmial.com' '2015-08-01');
+INSERT INTO students
+VALUES(108, 'Lily', 'Brixy', 'F', 'LB663@gmial.com' '2015-08-01');
+INSERT INTO students
+VALUES(109, 'Jake', 'Wallets', 'M', 'JW6@gmial.com' '2015-08-01');
+INSERT INTO students
+VALUES(110, 'Emiya', 'Shirou', 'M', 'ES@yahoo.co.uk' '2015-08-01');
+INSERT INTO students
+VALUES(111, 'Martha', 'Lily', 'F', 'ML34@ail.com' '2015-08-01');
+INSERT INTO students
+VALUES(112, 'Arthur', 'Smith', 'M', 'AS85@gmial.com' '2018-07-03');
+INSERT INTO students
+VALUES(113, 'Faye', 'Valentine', 'F', 'FV75@yahoo.co.uk', '2018-07-03');
+INSERT INTO students
+VALUES(114, 'Liz', 'Beth', 'F', 'LB555@gmial.com', '2018-07-03');
+INSERT INTO students
+VALUES(115, 'Jessica', 'Wallets', 'F', 'JW76@yahoo.co.uk', '2018-07-03');
+INSERT INTO students
+VALUES(116, 'Shinobu', 'May', 'F', 'SM@aol.com', '2018-07-03');
+INSERT INTO students
+VALUES(117, 'Astolfo', 'Charlemane', 'F', 'AC699@gmial.com', '2018-07-03');
+INSERT INTO students
+VALUES(118, 'Harrison', 'Cooks', 'F', 'HC432@gmail.com', '2018-07-03');
+INSERT INTO students
+VALUES(119, 'Addison', 'Hickins', 'F', 'AH3324@aol.com', '2018-07-03');
+INSERT INTO students
+VALUES(120, 'Solomon', 'Kings', 'M', 'SK666@aol.com', '2018-10-24');
+
+
+SELECT * FROM students;
+
+UPDATE students
+SET sex = 'M' 
+WHERE name = 'Astolfo';
+
+UPDATE students
+SET sex = 'M' 
+WHERE name = 'Harrison';
+
+UPDATE students
+SET sex = 'M' 
+WHERE name = 'Harrison';
+
+
+
+INSERT INTO attendence
+VALUES(100, 1, '65%');
+INSERT INTO attendence
+VALUES(101, 2, '55%');
+INSERT INTO attendence
+VALUES(102, 3, '86%');
+INSERT INTO attendence
+VALUES(103, 4, '100%');
+INSERT INTO attendence
+VALUES(104, 5, '64%');
+INSERT INTO attendence
+VALUES(105, 6, '49%');
+INSERT INTO attendence
+VALUES(106, 7, '88%');
+INSERT INTO attendence
+VALUES(107, 8, '92%');
+INSERT INTO attendence
+VALUES(108, 9, '90%');
+INSERT INTO attendence
+VALUES(109, 10, '98%');
+INSERT INTO attendence
+VALUES(110, 11, '69%');
+INSERT INTO attendence
+VALUES(111, 12, '95%');
+INSERT INTO attendence
+VALUES(112, 13, '100%');
+INSERT INTO attendence
+VALUES(113, 14, '35%');
+INSERT INTO attendence
+VALUES(114, 15, '40%');
+INSERT INTO attendence
+VALUES(115, 16, '98%');
+INSERT INTO attendence
+VALUES(116, 17, '29%');
+INSERT INTO attendence
+VALUES(117, 18, '95%');
+INSERT INTO attendence
+VALUES(118, 19, '66%');
+INSERT INTO attendence
+VALUES(119, 20, '87%');
+INSERT INTO attendence
+VALUES(120, 21, '100%');
+
+SELECT * FROM attendence;
+
+
+
+INSERT INTO classes
+VALUES(100, 1, '1a');
+INSERT INTO classes
+VALUES(101, 2, '1a');
+INSERT INTO classes
+VALUES(102, 3, '1b');
+INSERT INTO classes
+VALUES(103, 4, '1a');
+INSERT INTO classes
+VALUES(104, 5, '1b');
+INSERT INTO classes
+VALUES(105, 6, '2b');
+INSERT INTO classes
+VALUES(106, 7, '1a');
+INSERT INTO classes
+VALUES(107, 8, '1b');
+INSERT INTO classes
+VALUES(108, 9, '2a');
+INSERT INTO classes
+VALUES(109, 10, '2a');
+INSERT INTO classes
+VALUES(110, 11, '1b');
+INSERT INTO classes
+VALUES(111, 12, '1b');
+INSERT INTO classes
+VALUES(112, 13, '1b');
+INSERT INTO classes
+VALUES(113, 14, '1a');
+INSERT INTO classes
+VALUES(114, 15, '2b');
+INSERT INTO classes
+VALUES(115, 16, '2a');
+INSERT INTO classes
+VALUES(116, 17, '2a');
+INSERT INTO classes
+VALUES(117, 18, '2b');
+INSERT INTO classes
+VALUES(118, 19, '1b');
+INSERT INTO classes
+VALUES(119, 20, '2b');
+INSERT INTO classes
+VALUES(120, 21, '2b');
+
+
+SELECT * FROM classes;
+
+
+
+
+INSERT INTO grade
+VALUES(100, 1, 9);
+INSERT INTO grade
+VALUES(101, 2, 6);
+INSERT INTO grade
+VALUES(102, 3, 4);
+INSERT INTO grade
+VALUES(103, 4, 8);
+INSERT INTO grade
+VALUES(104, 5, 7);
+INSERT INTO grade
+VALUES(105, 6, 6);
+INSERT INTO grade
+VALUES(106, 7, 9);
+INSERT INTO grade
+VALUES(107, 8, 3);
+INSERT INTO grade
+VALUES(108, 9, 5);
+INSERT INTO grade
+VALUES(109, 10, 3);
+INSERT INTO grade
+VALUES(110, 11, 6);
+INSERT INTO grade
+VALUES(111, 12, 7);
+INSERT INTO grade
+VALUES(112, 13, 6);
+INSERT INTO grade
+VALUES(113, 14, 2);
+INSERT INTO grade
+VALUES(114, 15, 8);
+INSERT INTO grade
+VALUES(115, 16, 9);
+INSERT INTO grade
+VALUES(116, 17, 3);
+INSERT INTO grade
+VALUES(117, 18, 8);
+INSERT INTO grade
+VALUES(118, 19, 4);
+INSERT INTO grade
+VALUES(119, 20, 3);
+INSERT INTO grade
+VALUES(120, 21, 7);
+
+
+SELECT * FROM grade;
+
+
+
+
+
+INSERT INTO subjects
+VALUES(100, 1, 'Biology');
+INSERT INTO subjects
+VALUES(101, 2, 'Mathematics');
+INSERT INTO subjects
+VALUES(102, 3, 'Physics');
+INSERT INTO subjects
+VALUES(103, 4, 'English Language');
+INSERT INTO subjects
+VALUES(104, 5, 'History');
+INSERT INTO subjects
+VALUES(105, 6, 'Mathematics');
+INSERT INTO subjects
+VALUES(106, 7, 'Chemistry');
+INSERT INTO subjects
+VALUES(107, 8, 'IT');
+INSERT INTO subjects
+VALUES(109, 10, 'English Language');
+INSERT INTO subjects
+VALUES(110, 11, 'History');
+INSERT INTO subjects
+VALUES(111, 12, 'Chemistry');
+INSERT INTO subjects
+VALUES(112, 13, 'Chemistry');
+INSERT INTO subjects
+VALUES(113, 14, 'English Language');
+INSERT INTO subjects
+VALUES(114, 15, 'IT');
+INSERT INTO subjects
+VALUES(115, 16, 'English Language');
+INSERT INTO subjects
+VALUES(116, 17, 'Mathematics');
+INSERT INTO subjects
+VALUES(117, 18, 'Music');
+INSERT INTO subjects
+VALUES(118, 19, 'Geography');
+INSERT INTO subjects
+VALUES(119, 20, 'Biology');
+INSERT INTO subjects
+VALUES(120, 21, 'Physics');
+
+
+
+SELECT * FROM subjects;
+
+
+
+
+
+INSERT INTO tutor
+VALUES(100, 1, 'Oliver Cresswell', 'OC34@aol.com');
+INSERT INTO tutor
+VALUES(101, 2, 'Oliver Cresswell', 'OC34@aol.com');
+INSERT INTO tutor
+VALUES(102, 3, 'Oliver Cresswell', 'OC34@aol.com');
+INSERT INTO tutor
+VALUES(103, 4, 'Chandy Williams', 'CW9756@gmail.com');
+INSERT INTO tutor
+VALUES(104, 5, 'Oliver Cresswell', 'OC34@aol.com');
+INSERT INTO tutor
+VALUES(105, 6, 'Chandy Williams', 'CW9756@gmail.com');
+INSERT INTO tutor
+VALUES(106, 7, 'Chandy Williams', 'CW9756@gmial.com');
+INSERT INTO tutor
+VALUES(107, 8, 'Oliver Cresswell', 'OC34@aol.com');
+INSERT INTO tutor
+VALUES(108, 9, 'Chris Broad', 'CB48@gmail.com');
+INSERT INTO tutor
+VALUES(109, 10, 'Chris Broad', 'CB48@gmail.com');
+INSERT INTO tutor
+VALUES(110, 11, 'Chris Broad', 'CB48@gmail.com');
+INSERT INTO tutor
+VALUES(111, 12, 'Mina Yang', 'MY434@gmail.com');
+INSERT INTO tutor
+VALUES(112, 13, 'Mina Yang', 'MY434@gmail.com');
+INSERT INTO tutor
+VALUES(113, 14, 'Mina Yang', 'MY434@gmail.com');
+INSERT INTO tutor
+VALUES(114, 15, 'Chris Broad', 'CB48@gmail.com');
+INSERT INTO tutor
+VALUES(115, 16, 'Sonny Chance', 'SC990@yahoo.co.uk');
+INSERT INTO tutor
+VALUES(116, 17, 'Sonny Chance', 'SC990@yahoo.co.uk');
+INSERT INTO tutor
+VALUES(117, 18, 'Sonny Chance', 'SC990@yahoo.co.uk');
+INSERT INTO tutor
+VALUES(118, 19, 'Oliver Cresswell', 'OC34@aol.com');
+INSERT INTO tutor
+VALUES(119, 20, 'Michael Afton', 'MA743@aol.com');
+INSERT INTO tutor
+VALUES(120, 21, 'Michael Afton', 'MA743@aol.com');
+
+
+SELECT * FROM tutor;
+
+
+
+
+
+INSERT INTO school_company
+VALUES(1, 'J.T labels & Services', 'Label Notes');
+INSERT INTO school_company
+VALUES(2, 'Digital Tech', 'Computer Parts & Services');
+INSERT INTO school_company
+VALUES(3, 'J.T labels & Services', 'Label Notes');
+INSERT INTO school_company
+VALUES(3, 'J.T labels & Services', 'Label Notes');
+INSERT INTO school_company
+VALUES(4, 'Raymans', 'Paper');
+INSERT INTO school_company
+VALUES(5, 'PenPen', 'Pens & colouring pencils');
+INSERT INTO school_company
+VALUES(6, 'Raymans', 'Paper');
+INSERT INTO school_company
+VALUES(7, 'Digital Tech', 'Computer Parts & Services');
+INSERT INTO school_company
+VALUES(8, 'Digital Tech', 'Computer Parts & Services');
+INSERT INTO school_company
+VALUES(9, 'Rolling furniture', 'Chairs and Tables');
+INSERT INTO school_company
+VALUES(10, 'Rolling furniture', 'Chairs and Tables');
+INSERT INTO school_company
+VALUES(11, 'Peepers', 'Books');
+INSERT INTO school_company
+VALUES(12, 'Peepers', 'Books');
+INSERT INTO school_company
+VALUES(13, 'Peepers', 'Books');
+INSERT INTO school_company
+VALUES(14, 'Raymans', 'Paper');
+INSERT INTO school_company
+VALUES(15, 'Raymans', 'Paper');
+INSERT INTO school_company
+VALUES(16, 'Digital Tech', 'Computer Parts & Services');
+INSERT INTO school_company
+VALUES(17, 'J.T labels & Services', 'Label Notes');
+INSERT INTO school_company
+VALUES(18, 'J.T labels & Services', 'Label Notes');
+INSERT INTO school_company
+VALUES(19, 'Rolling furniture', 'Chairs and Tables');
+INSERT INTO school_company
+VALUES(20, 'Rolling furniture', 'Chairs and Tables');
+
+
+
+
+
+
+
+
+
