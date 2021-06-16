@@ -1,0 +1,159 @@
+-- find out the students name and subject and count of who have reached above grade 5 
+
+
+SELECT name, surname, grade, subject, COUNT(subject) FROM students s
+JOIN grade g ON g.id = s.id
+JOIN subjects sub ON sub.subject_id = g.grade_id
+WHERE grade >= 5
+GROUP BY name;
+
+-- find out the average attendence of each class 
+
+
+SELECT class_name, AVG(attendence) AS avg_attendence FROM students s
+JOIN classes c ON s.id = c.id
+JOIN attendence a ON a.attendence_id = c.class_id
+GROUP BY 1;
+
+-- print out the name of students who has an a, e,l in their name and an attendence > 60 'Good and < 60 bad
+-- name the column 'attendence'
+
+
+SELECT name, surname, attendence, CASE
+WHEN attendence >= 60 THEN 'Good'
+WHEN attendence < 60 THEN 'Bad'
+END AS assessment
+FROM students s
+JOIN attendence a
+ON s.id = a.id;
+
+
+-- select the names of students
+-- who take the subject mathemematics OR physics
+
+
+SELECT name, surname FROM students
+WHERE id IN (
+SELECT id FROM subjects
+WHERE subject = 'Mathematics' OR subject = 'Physics');
+
+
+
+
+SELECT * FROM students;
+SELECT * FROM classes;
+SELECT * FROM attendence;
+SELECT * FROM grade;
+SELECT * FROM subjects;
+SELECT * FROM tutor;
+SELECT * FROM school_company;
+
+
+
+-- print the supply type and company 
+-- that belongs to each tutor
+
+
+SELECT sc.id, company, supply_type, tutor_name FROM school_company sc
+RIGHT JOIN tutor t ON t.tutor_id = sc.id;
+
+-- names of tutor
+-- that teach students who are male and who enrolled in 2015
+
+
+SELECT tutor_id, name, surname, s.email, tutor_name, t.email FROM students s
+JOIN tutor t ON s.id = t.id 
+WHERE sex = 'M' AND enrollment_date >= 2015-08-01
+ORDER BY tutor_id;
+
+-- Rank each group of grades from each student
+
+
+SELECT name, surname, attendence, grade,
+RANK() OVER(PARTITION BY grade  ORDER BY name, surname DESC) AS 'Ranked scores'
+ FROM students s
+JOIN attendence a ON s.id = a.id
+JOIN grade g ON g.id = a.id;
+
+
+
+
+-- table of newer students in the database printing 'added new student' depending on gender
+
+DELIMITER $$
+CREATE TRIGGER new_students BEFORE INSERT ON students
+FOR EACH ROW BEGIN
+IF NEW.sex = 'F' THEN INSERT INTO trigger_1 VALUES ('Added new female student');
+ELSE INSERT INTO trigger_1 VALUES ('Added new male student');
+END IF;
+END $$ 
+DELIMITER ;
+
+
+
+
+-- count the number of times each teacher is teaching every student
+-- who has a vouel in their name 
+
+
+SELECT name, surname, sex, email, tutor_name, enrollment_date, number_of_times_teaching_student
+FROM 
+( 
+SELECT id, name, surname, sex, email, enrollment_date
+FROM students
+WHERE surname NOT REGEXP '^[aeiou]$' OR name NOT REGEXP '^[aeiou]$'
+ORDER BY sex DESC, enrollment_date) AS pupils
+ JOIN
+(
+SELECT id, tutor_name, COUNT(tutor_name) AS number_of_times_teaching_student FROM tutor
+GROUP BY tutor_name) AS teachers
+ON teachers.id = pupils.id;
+
+
+
+-- Concatinating company and suppply type in one column 
+-- alongside which staff is accosiated with the company and supply type
+
+
+SELECT sc.id, CONCAT(company, '| ',supply_type) AS 'company supply type', tutor_name, 
+COUNT('company supply type') AS 'number of supplies' FROM tutor t
+JOIN school_company sc ON t.tutor_id = sc.id
+GROUP BY tutor_name
+HAVING COUNT('company supply type')>1
+ORDER BY 4 DESC;
+
+-- add rows corresponding to highest to smallest grade
+-- for each students chosen subject
+
+
+SELECT surname, name, subject,
+ ROW_NUMBER() OVER(PARTITION BY subject ORDER BY grade DESC) AS 'row number',
+grade 
+FROM students s
+JOIN subjects sub ON s.id = sub.id
+JOIN grade g ON g.grade_id = sub.subject_id;
+
+
+-- using a cte 
+-- print the names of students who's name is between A and M]
+-- Has a attendence of over 65% 
+-- Has a grade equal to or better than 5
+-- Order by highest grade and attendence
+
+
+WITH cte_students AS 
+(SELECT s.id, surname, name, s.email, tutor_name FROM students s
+JOIN tutor t ON t.id = s.id
+GROUP BY 1
+HAVING surname BETWEEN 'A%' AND 'M%'
+ORDER BY 1),
+
+cte_grade AS 
+(SELECT g.id, attendence, grade FROM attendence a
+JOIN grade g ON a.attendence_id = g.grade_id
+WHERE attendence > '65%' AND grade >= 5)
+
+SELECT surname, name, attendence, grade FROM cte_students cs
+JOIN cte_grade cg ON cs.id = cg.id
+ORDER BY grade DESC, attendence DESC;
+
