@@ -1,11 +1,14 @@
--- find out the students name and subject and count of who have reached above grade 5 
+-- find out how the counts of people who have reached above grade 5 
+-- include grade subject
 
 
-SELECT name, surname, grade, subject, COUNT(subject) FROM students s
+SELECT grade, subject, COUNT(subject) AS ' stundents who got over grade 5' FROM students s
 JOIN grade g ON g.id = s.id
 JOIN subjects sub ON sub.subject_id = g.grade_id
 WHERE grade >= 5
-GROUP BY name;
+GROUP BY subject;
+
+
 
 -- find out the average attendence of each class 
 
@@ -58,22 +61,23 @@ SELECT sc.id, company, supply_type, tutor_name FROM school_company sc
 RIGHT JOIN tutor t ON t.tutor_id = sc.id;
 
 -- names of tutor
--- that teach students who are male and who enrolled in 2015
+-- that teaches students who are male and who enrolled in 2015 or later
 
 
 SELECT tutor_id, name, surname, s.email, tutor_name, t.email FROM students s
 JOIN tutor t ON s.id = t.id 
-WHERE sex = 'M' AND enrollment_date >= 2015-08-01
+WHERE sex = 'M' AND enrollment_date >= 2015-00-00
 ORDER BY tutor_id;
 
 -- Rank each group of grades from each student
 
 
-SELECT name, surname, attendence, grade,
-RANK() OVER(PARTITION BY grade  ORDER BY name, surname DESC) AS 'Ranked scores'
+SELECT name, surname, grade,
+RANK() OVER(PARTITION BY grade ORDER BY attendence, surname, name DESC) AS 'Ranked scores'
  FROM students s
 JOIN attendence a ON s.id = a.id
-JOIN grade g ON g.id = a.id;
+JOIN grade g ON g.id = a.id
+ORDER BY grade DESC;
 
 
 
@@ -156,4 +160,3 @@ WHERE attendence > '65%' AND grade >= 5)
 SELECT surname, name, attendence, grade FROM cte_students cs
 JOIN cte_grade cg ON cs.id = cg.id
 ORDER BY grade DESC, attendence DESC;
-
