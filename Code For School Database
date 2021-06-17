@@ -55,8 +55,6 @@ email VARCHAR(255),
 FOREIGN KEY (id) REFERENCES students(id) ON DELETE CASCADE
 );
 
-DROP TABLE tutor;
-DROP table school_company;
 
 
 CREATE table school_company (
@@ -69,22 +67,14 @@ ADD FOREIGN KEY (id) REFERENCES tutor(tutor_id) ON DELETE SET NULL;
 
 
 
-CREATE TABLE tirgger_1 (
-message VARCHAR(255) 
+CREATE TABLE school_trigger (
+message VARCHAR(255)
 );
 
-CREATE TABLE tirgger_2 (
-message VARCHAR(255) 
-);
+ALTER TABLE school_trigger
+ADD createdtime DATETIME NOT NULL;
 
 
-SELECT * FROM students;
-SELECT * FROM classes;
-SELECT * FROM attendence;
-SELECT * FROM grade;
-SELECT * FROM subjects;
-SELECT * FROM tutor;
-SELECT * FROM school_company;
 
 
 
@@ -150,7 +140,7 @@ UPDATE students
 SET sex = 'M' 
 WHERE name = 'Harrison';
 
-SET SQL_SAFE_UPDATES = 0;
+
 
 INSERT INTO attendence
 VALUES(100, 1, '65%');
@@ -244,9 +234,6 @@ VALUES(120, 21, '2b');
 
 
 
-
-
-
 INSERT INTO grade
 VALUES(100, 1, 9);
 INSERT INTO grade
@@ -293,10 +280,6 @@ VALUES(120, 21, 7);
 
 
 
-
-
-
-
 INSERT INTO subjects
 VALUES(100, 1, 'Biology');
 INSERT INTO subjects
@@ -337,9 +320,6 @@ INSERT INTO subjects
 VALUES(119, 20, 'Biology');
 INSERT INTO subjects
 VALUES(120, 21, 'Physics');
-
-
-
 
 
 
@@ -437,7 +417,6 @@ INSERT INTO school_company
 VALUES(19, 'Rolling furniture', 'Chairs and Tables');
 INSERT INTO school_company
 VALUES(20, 'Rolling furniture', 'Chairs and Tables');
-
 
 
 
