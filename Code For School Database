@@ -419,5 +419,12 @@ INSERT INTO school_company
 VALUES(20, 'Rolling furniture', 'Chairs and Tables');
 
 
+-- DROP TABLE IF EXISTS temp_school;
 
+CREATE TEMPORARY TABLE temp_school (
+grade int,
+grademin int, 
+surname VARCHAR(255),
+subject VARCHAR(255),
+tutor VARCHAR(255));
 
