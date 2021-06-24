@@ -160,3 +160,18 @@ WHERE attendence > '65%' AND grade >= 5)
 SELECT surname, name, attendence, grade FROM cte_students cs
 JOIN cte_grade cg ON cs.id = cg.id
 ORDER BY grade DESC, attendence DESC;
+
+
+-- CREATE temp table 
+-- joining grade, students and tutor
+-- querying grade, min grade for each subject & by what tutor
+
+INSERT INTO temp_school
+SELECT grade, MIN(grade),  surname, subject, tutor_name FROM students s
+JOIN grade g on s.id = g.id
+JOIN subjects sub ON sub.subject_id = g.grade_id
+JOIN tutor t ON t.id = s.id
+GROUP BY subject
+ORDER BY grade DESC;
+
+SELECT * FROM temp_school;
