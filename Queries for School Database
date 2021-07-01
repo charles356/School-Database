@@ -175,3 +175,49 @@ GROUP BY subject
 ORDER BY grade DESC;
 
 SELECT * FROM temp_school;
+
+
+
+-- Create a store prodcure 
+-- that includes all the students who attended this school 
+-- before or equal to 2015-08-01
+
+CREATE PROCEDURE IF NOT EXISTS student_table AS (
+DELIMITER $$
+
+CREATE PROCEDURE student_table()
+BEGIN
+SELECT * FROM students
+WHERE enrollment_date <='2015-08-01';
+END $$
+DELIMITER ;
+
+CALL student_table;
+
+
+
+-- create a view
+-- representing the average male and female attendence
+
+
+DROP VIEW IF EXISTS male_average;
+CREATE VIEW male_average AS 
+SELECT COUNT(sex) AS 'male students', grade, ROUND(AVG(attendence),1) As 'average male attendence' FROM students s
+JOIN grade g ON g.id=s.id
+JOIN attendence a ON g.grade_id=a.attendence_id
+GROUP BY sex
+HAVING sex = 'M';
+
+ DROP VIEW IF EXISTS female_average;
+CREATE VIEW female_average AS 
+SELECT COUNT(sex) AS 'Female students', grade, ROUND(AVG(attendence),1) As 'average female attendence' FROM students s
+JOIN grade g ON g.id=s.id
+JOIN attendence a ON g.grade_id=a.attendence_id
+GROUP BY sex
+HAVING sex = 'F';
+
+SELECT * FROM male_average;
+
+SELECT * FROM female_average;
+
+
