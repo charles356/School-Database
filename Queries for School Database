@@ -221,3 +221,16 @@ SELECT * FROM male_average;
 SELECT * FROM female_average;
 
 
+-- another way of creating a temporary table
+
+CREATE TEMPORARY TABLE IF NOT EXISTS table2 AS (
+SELECT sc.id, CONCAT(company, '| ',supply_type) AS 'company supply type', tutor_name, 
+COUNT('company supply type') AS 'number of supplies' FROM tutor t
+JOIN school_company sc ON t.tutor_id = sc.id
+GROUP BY tutor_name
+HAVING COUNT('company supply type')>1
+ORDER BY 4 DESC);
+
+SELECT * FROM table2;
+
+
