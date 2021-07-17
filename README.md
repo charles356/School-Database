@@ -3,7 +3,7 @@ Prsenting a relational School database
 
 Feel free to mess around with this code! 
 
-**Tool:MYSQL**
+**MYSQL**
 
 
 
