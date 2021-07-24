@@ -419,8 +419,9 @@ INSERT INTO school_company
 VALUES(20, 'Rolling furniture', 'Chairs and Tables');
 
 
--- DROP TABLE IF EXISTS temp_school;
 
+
+ DROP TABLE IF EXISTS temp_school;
 CREATE TEMPORARY TABLE temp_school (
 grade int,
 grademin int, 
@@ -428,3 +429,32 @@ surname VARCHAR(255),
 subject VARCHAR(255),
 tutor VARCHAR(255));
 
+
+
+
+-- Procedure case
+
+CREATE PROCEDURE IF NOT EXISTS student_table AS (
+DELIMITER $$
+
+CREATE PROCEDURE student_table()
+BEGIN
+SELECT * FROM students
+WHERE enrollment_date <='2015-08-01';
+END $$
+DELIMITER ;
+
+CALL student_table;
+
+
+
+-- Trigger table 
+
+DELIMITER $$
+CREATE TRIGGER new_students BEFORE INSERT ON students
+FOR EACH ROW BEGIN
+IF NEW.sex = 'F' THEN INSERT INTO school_trigger VALUES ('Added new female student', NOW());
+ELSE INSERT INTO school_trigger VALUES ('Added new male student', NOW());
+END IF;
+END $$ 
+DELIMITER ;
